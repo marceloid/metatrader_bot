@@ -26,24 +26,30 @@ def ping(message):
     )
 
 
-@bot.message_handler(func=lambda message: True)
+@bot.message_handler(content_types=['text'])
 def broadcast_signal(message):
-    in_message = get_match_dict(message.text)
-    if in_message:
-        out_message = convert_signal(in_message)
-    else:
+    try:
+        in_message = get_match_dict(message.text)
+        if in_message:
+            out_message = convert_signal(in_message)
+        else:
+            bot.reply_to(
+                message,
+                'A mensagem recebida não está no padrão definido para ser encaminhada ao canal!',
+            )
+            return message.text
+
+        bot.send_message(chat_id=int(os.getenv('CHANNEL_ID')), text=out_message)
         bot.reply_to(
             message,
-            'A mensagem recebida não está no padrão definido para ser encaminhada ao canal!',
+            'Sinal enviado com sucesso!',
         )
-        return message.text
-
-    bot.send_message(chat_id=int(os.getenv('CHANNEL_ID')), text=out_message)
-    bot.reply_to(
-        message,
-        'Sinal enviado com sucesso!',
-    )
-    return out_message
+        return out_message
+    except:
+        bot.reply_to(
+            message,
+            'Ocorreu algum erro desconhecido e não foi possível enviar o sinal para o canal!',
+        )
 
 
 if __name__ == '__main__':
