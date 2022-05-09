@@ -1,0 +1,1 @@
+worker: python metatrader_bot/main.py
