@@ -23,7 +23,7 @@ def ping(message):
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
     bot.reply_to(message, message.text)
-    bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=message.text)
+    bot.send_message(chat_id=int(os.getenv('CHANNEL_ID')), text=message.text)
 
 
 if __name__ == '__main__':
