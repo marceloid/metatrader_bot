@@ -39,6 +39,10 @@ def broadcast_signal(message):
         return message.text
 
     bot.send_message(chat_id=int(os.getenv('CHANNEL_ID')), text=out_message)
+    bot.reply_to(
+        message,
+        'Sinal enviado com sucesso!',
+    )
     return out_message
 
 
